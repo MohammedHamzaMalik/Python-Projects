@@ -1,0 +1,64 @@
+Documentation
+
+Face detection and counting faces in the image using OpenCV in Python.
+
+OpenCV:
+
+OpenCV is the most popular library for computer vision. 
+Originally written in C/C++, it now provides bindings for Python.
+OpenCV uses machine learning algorithms to search for faces within a picture. 
+Because faces are so complicated, there isn’t one simple test that will tell you if it found a face or not. 
+Instead, there are thousands of small patterns and features that must be matched. 
+The algorithms break the task of identifying the face into thousands of smaller, bite-sized tasks, each of which is easy to solve. 
+These tasks are also called classifiers.
+To get around this, OpenCV uses cascades.
+
+Cascades:
+
+The cascades are just a bunch of XML files that contain OpenCV data used to detect objects. 
+You initialize your code with the cascade you want, and then it does the work for you.
+
+Code:
+
+As usual, we will start by including the modules needed for the image processing i.e. we will import OpenCV 'import cv'.
+
+Then we will take the specific path for image and the Cascading file.
+
+Then, we will load the classifier with the CascadeClassifier function of the cv2 module, which receives as input the path to the classifier file. 
+In this case, we are going to use the haarcascade_frontalface_default.xml classifier file.
+
+In order to guarantee that the file is correctly accessed, I’m going to put the whole file path in the CascadeClassifier function. 
+As shown bellow, I have the file in my desktop directory in LetsUpgarde folder in Face Detection folder, but you can put it in any directory you like, as long as you pass the correct path. 
+This function will return a CascadeClassifier object.
+
+Then we will load the image with the imread function of the cv2 module. 
+This function will receive as input the path to the image. 
+We will pass as input the image in which we want to to the face detection.
+
+We will also convert the image to grayscale, in order to apply the classification. 
+To do so, we use the cvtColor function. This will receive as input the original image and as second input the code for the color space conversion. 
+In this case, to convert from RGB to gray, we use the COLOR_BGR2GRAY code.
+
+Now, to do the actual face detection, we will call the detectMultiScale method on our face_cascade object. 
+As input we will pass our converted gray image. 
+
+This function detects the actual face and is the key part of our code, so let’s go over the options:
+
+The detectMultiScale function is a general function that detects objects. Since we are calling it on the face cascade, that’s what it detects.
+
+The first option is the grayscale image.
+
+The second is the scaleFactor. Since some faces may be closer to the camera, they would appear bigger than the faces in the back. The scale factor compensates for this.
+
+The detection algorithm uses a moving window to detect objects. minNeighbors defines how many objects are detected near the current one before it declares the face found. minSize, meanwhile, gives the size of each window.
+
+The function returns a list of rectangles in which it believes it found a face. Next, we will loop over where it thinks it found something.
+This function returns 4 values: the x and y location of the rectangle, and the rectangle’s width and height (w , h).
+
+We use these values to draw a rectangle using the built-in rectangle() function.
+
+We will pass the color white and a thickness of -1 to the rectangle function, meaning the rectangle will be filled.
+
+To write the text, we call the putText function, passing as input the image, the text, the bottom left corner where to put the text, the font, the scale of the text, the color and the thickness [1000000].
+
+Finally, we show the edited image with the rectangles and the text, and wait for a key to be pressed to destroy the windows.
